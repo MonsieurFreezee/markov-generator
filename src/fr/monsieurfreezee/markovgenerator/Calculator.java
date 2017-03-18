@@ -15,12 +15,25 @@ public class Calculator {
 
         String line;
         while ((line = reader.readLine()) != null) {
-            for (int i = 0; i < line.length() - 1; i++) {
+            String word = line.split("\t")[0];
+            if (word.length() >= 2) {
+                System.err.println(word + ": ");
+                System.err.print("!!>" + word.charAt(0) + "  \t");
+                System.err.print("!" + word.charAt(0) + ">" + word.charAt(1) + "  \t");
+                for (int i = 0; i < word.length() - 1; i++) {
+                    String letters = word.charAt(i) + "" + word.charAt(i + 1);
+                    String followedBy = null;
+                    try {
+                        followedBy = word.charAt(i + 2) + "";
+                    } catch (StringIndexOutOfBoundsException e) {
+                    }
 
-                // Discard
-            }
+                    System.err.print(letters + ">" + (followedBy == null ? "!" : followedBy) + "  \t");
+                }
+                System.err.println("");
 
 //            probabilities.put(firstLetters, probabilities.get(firstLetters) + 1);
+            }
         }
     }
 }
