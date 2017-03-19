@@ -16,24 +16,29 @@ public class Calculator {
         String line;
         while ((line = reader.readLine()) != null) {
             String word = line.split("\t")[0];
-            if (word.length() >= 2) {
-                System.err.println(word + ": ");
-                System.err.print("!!>" + word.charAt(0) + "  \t");
-                System.err.print("!" + word.charAt(0) + ">" + word.charAt(1) + "  \t");
-                for (int i = 0; i < word.length() - 1; i++) {
-                    String letters = word.charAt(i) + "" + word.charAt(i + 1);
-                    String followedBy = null;
-                    try {
-                        followedBy = word.charAt(i + 2) + "";
-                    } catch (StringIndexOutOfBoundsException e) {
-                    }
+            if (word.length() >= 2 && !word.contains("-") && !word.contains(" ")) {
+                System.err.print(word + ": \t\t\t");
 
-                    System.err.print(letters + ">" + (followedBy == null ? "!" : followedBy) + "  \t");
+                for (int i = 0; i < word.length() + 1; i++) {
+                    String letters = charAt(word, i - 2) + "" + charAt(word, i - 1) + ">" + charAt(word, i);
+
+                    int characterOccurences = 1;
+                    try { characterOccurences = probabilities.get(letters); }
+                    catch (NullPointerException ignored) { }
+                    probabilities.put(letters, characterOccurences + 1);
+
+                    System.err.print(letters + " (" + characterOccurences + ")  \t");
                 }
                 System.err.println("");
-
-//            probabilities.put(firstLetters, probabilities.get(firstLetters) + 1);
             }
+        }
+    }
+
+    private static char charAt(String str, int index) {
+        try {
+            return str.charAt(index);
+        } catch (StringIndexOutOfBoundsException e) {
+            return '!';
         }
     }
 }
